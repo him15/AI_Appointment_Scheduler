@@ -25,27 +25,24 @@ public class ParseController {
         this.ocrService = ocrService;
     }
 
+    /**
+     * Parse plain text input.
+     */
     @PostMapping("/text")
     public ResponseEntity<ParseResponse> parseText(@RequestBody TextParseRequest request) {
-        ParseResponse response = pipelineService.parseText(request.getText());
+        String text = (request != null) ? request.getText() : null;
+        ParseResponse response = pipelineService.parseText(text);
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Parse uploaded image by running OCR -> preprocessing -> entity extraction -> normalization.
+     */
     @PostMapping("/image")
     public ResponseEntity<?> parseImage(@RequestParam("file") MultipartFile file) {
         try {
-            String extracted = ocrService.extractText(file);
-
-            // quick null/empty check
-            if (extracted == null || extracted.trim().isEmpty()) {
-                ParseResponse resp = new ParseResponse();
-                resp.setRawText("");
-                resp.setStatus("needs_clarification");
-                resp.setMessage("OCR returned empty text. Please upload a clearer image.");
-                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resp);
-            }
-
-            ParseResponse response = pipelineService.parseText(extracted);
+            // Let OcrServiceImpl handle both OCR and pipeline
+            ParseResponse response = ocrService.parseImageAndRunPipeline(file);
             return ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException iae) {
@@ -57,7 +54,6 @@ public class ParseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "OCR engine error", "details", te.getMessage()));
         } catch (Exception ex) {
-            // catch-all so we don't return empty 500s; log server-side
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Unexpected error", "details", ex.getMessage()));

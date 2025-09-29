@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63e8116b-acb0-427b-b736-7b9557954a83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/DefaultGuardrailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/EntityExtractorImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/NattyNormalizer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/SimpleConfidenceScorer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/TextPreprocessorImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/Controller/ParseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/Controller/ParseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/impl/PipelineServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/PipelineServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/Controller/ParseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/Controller/ParseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/service/impl/PipelineServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +105,7 @@
       <workItem from="1759047524585" duration="12929000" />
       <workItem from="1759130922582" duration="12000" />
       <workItem from="1759130969960" duration="808000" />
-      <workItem from="1759131868370" duration="13866000" />
+      <workItem from="1759131868370" duration="18054000" />
     </task>
     <servers />
   </component>
