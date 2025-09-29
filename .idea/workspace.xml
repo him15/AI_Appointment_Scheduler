@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63e8116b-acb0-427b-b736-7b9557954a83" name="Changes" comment="" />
+    <list default="true" id="63e8116b-acb0-427b-b736-7b9557954a83" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/DefaultGuardrailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/EntityExtractorImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/NattyNormalizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/OcrServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/SimpleConfidenceScorer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/TextPreprocessorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/Controller/ParseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/Controller/ParseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/impl/PipelineServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthcare/ai_appointmentscheduler/service/PipelineServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/Controller/ParseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/Controller/ParseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/healthcare/ai_appointmentscheduler/service/impl/PipelineServiceImpl.class" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +32,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -28,28 +46,33 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="33JuVcF3ppheru7JXCKeKUtCq08" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.Mt2024058AiAppointmentSchedulerTaskApplication.executor": "Run",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/himanshushivhare/Desktop/AI_AppointmentScheduler",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.AiAppointmentSchedulerTaskApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.Mt2024058AiAppointmentSchedulerTaskApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/himanshushivhare/Desktop/AI_AppointmentScheduler&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="AI_AppointmentScheduler" />
@@ -66,6 +89,7 @@
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="AI_AppointmentScheduler" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.healthcare.ai_appointmentscheduler.Mt2024058AiAppointmentSchedulerTaskApplication" />
+      <option name="VM_PARAMETERS" value="-Djna.library.path=/opt/homebrew/lib" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -90,7 +114,7 @@
       <workItem from="1759047524585" duration="12929000" />
       <workItem from="1759130922582" duration="12000" />
       <workItem from="1759130969960" duration="808000" />
-      <workItem from="1759131868370" duration="68000" />
+      <workItem from="1759131868370" duration="13866000" />
     </task>
     <servers />
   </component>
