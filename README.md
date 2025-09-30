@@ -64,6 +64,14 @@ The pipeline: **OCR → Text Preprocessing → Entity Extraction → Normalizati
 
 ---
 
+## File Structure
+
+<img width="706" height="728" alt="Screenshot 2025-10-01 at 12 49 51 AM" src="https://github.com/user-attachments/assets/3db388d0-3510-40f5-a7a2-e3f3f3534615" />
+
+
+
+---
+
 
 ## 🏗️ Architecture
 
