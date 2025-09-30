@@ -60,3 +60,9 @@ normalize spaces)
          │
          ▼
   Structured JSON Response
+
+<img width="849" height="694" alt="1" src="https://github.com/user-attachments/assets/460cf55b-188a-424c-8526-16fdfcf6663e" />
+
+
+<img width="877" height="757" alt="2" src="https://github.com/user-attachments/assets/46f017fc-7660-45da-a976-a74919817514" />
+
