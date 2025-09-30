@@ -12,61 +12,43 @@ import java.util.regex.Pattern;
 @Service
 public class EntityExtractorImpl {
 
-    private static final double DEPT_SIM_THRESHOLD = 0.75; // Stricter threshold for fuzzy matches
+    private static final double DEPT_SIM_THRESHOLD = 0.75;
     private static final double DATE_SIM_THRESHOLD = 0.70;
 
-    private static final List<String> DATE_WORDS = List.of(
-            "today", "tomorrow", "day after tomorrow",
+    private static final List<String> SINGLE_DATE_WORDS = List.of(
+            "today", "tomorrow", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
+    );
+    private static final List<String> WEEKDAY_WORDS = List.of(
             "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
     );
 
     public ExtractedEntities extract(String raw) {
         ExtractedEntities out = new ExtractedEntities();
-        if (raw == null) {
-            return out;
-        }
-
+        if (raw == null) return out;
         String clean = normalizeOcrText(raw);
-
         DeptMatchResult deptMatch = findDepartment(clean);
         out.setDepartment(deptMatch.department());
         out.setDepartmentConfidence(deptMatch.confidence());
-
         out.setTimePhrase(findTimePhrase(clean));
         out.setDatePhrase(findDatePhrase(clean));
-
         return out;
     }
 
     private record DeptMatchResult(String department, double confidence) {}
 
-    /**
-     * --- NEW, MORE ACCURATE DEPARTMENT FINDER ---
-     * This version prioritizes exact, whole-word matches over simple substring contains.
-     */
     private DeptMatchResult findDepartment(String clean) {
         if (clean == null || clean.isBlank()) return new DeptMatchResult(null, 0.0);
-
-        // 1. Tokenize the input to work with whole words.
         String[] tokens = clean.split("\\s+");
         Set<String> inputTokens = new HashSet<>(Arrays.asList(tokens));
-
-        // 2. Try for an exact WHOLE WORD match first. This is a true 100% confidence match.
         for (String dept : DepartmentConfig.DEPARTMENTS_SORTED_FOR_SEARCH) {
-            if (inputTokens.contains(dept)) {
-                return new DeptMatchResult(dept, 1.0);
-            }
+            if (inputTokens.contains(dept)) return new DeptMatchResult(dept, 1.0);
         }
-
-        // 3. If no exact whole word is found, THEN use fuzzy matching as a fallback.
         double bestSim = 0.0;
         String bestDept = null;
-
         for (int window = 1; window <= 2; window++) {
             for (int i = 0; i + window <= tokens.length; i++) {
                 String candidate = String.join(" ", Arrays.copyOfRange(tokens, i, i + window)).trim();
-                if (!FuzzyMatcher.isPlausibleWord(candidate)) continue; // Skip gibberish
-
+                if (!FuzzyMatcher.isPlausibleWord(candidate)) continue;
                 for (String dept : DepartmentConfig.DEPARTMENTS) {
                     double sim = FuzzyMatcher.similarity(candidate, dept);
                     if (sim > bestSim) {
@@ -76,30 +58,49 @@ public class EntityExtractorImpl {
                 }
             }
         }
-
-        if (bestSim >= DEPT_SIM_THRESHOLD) {
-            return new DeptMatchResult(bestDept, bestSim);
-        }
-
+        if (bestSim >= DEPT_SIM_THRESHOLD) return new DeptMatchResult(bestDept, bestSim);
         return new DeptMatchResult(null, 0.0);
     }
 
+    /**
+     * --- FINAL, MOST ADVANCED DATE EXTRACTION LOGIC ---
+     * This version adds fuzzy matching for two-word phrases like "nxt fridaty".
+     */
     private String findDatePhrase(String clean) {
         if (clean == null || clean.isBlank()) return null;
+
+        // 1. Check for exact multi-word phrases first for highest accuracy.
         if (clean.contains("day after tomorrow")) return "day after tomorrow";
-        Pattern nextWeekdayPattern = Pattern.compile("next\\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)");
+        Pattern nextWeekdayPattern = Pattern.compile("next\\s+(" + String.join("|", WEEKDAY_WORDS) + ")");
         Matcher nextMatcher = nextWeekdayPattern.matcher(clean);
         if (nextMatcher.find()) return nextMatcher.group(0);
-        if (clean.contains("tomorrow")) return "tomorrow";
-        if (clean.contains("today")) return "today";
-        for (String day : List.of("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")) {
-            if (clean.contains(day)) return day;
-        }
+
+        // 2. Use FUZZY matching to find misspelled multi-word phrases.
         String[] tokens = clean.replaceAll("[^a-z\\s]", "").split("\\s+");
+        if (tokens.length >= 2) {
+            for (int i = 0; i < tokens.length - 1; i++) {
+                // Check if the first word is similar to "next"
+                if (FuzzyMatcher.similarity(tokens[i], "next") > 0.75) {
+                    // Check if the second word is similar to any weekday
+                    for (String day : WEEKDAY_WORDS) {
+                        if (FuzzyMatcher.similarity(tokens[i + 1], day) > 0.75) {
+                            return "next " + day; // Return the corrected, full phrase
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback to check for exact single-word phrases.
+        for (String dateWord : SINGLE_DATE_WORDS) {
+            if (clean.contains(dateWord)) return dateWord;
+        }
+
+        // 4. Final fallback: fuzzy matching for single-word typos.
         double bestSim = 0.0;
         String bestMatch = null;
         for (String token : tokens) {
-            for (String dateWord : DATE_WORDS) {
+            for (String dateWord : SINGLE_DATE_WORDS) {
                 double sim = FuzzyMatcher.similarity(token, dateWord);
                 if (sim > bestSim) {
                     bestSim = sim;
@@ -108,8 +109,10 @@ public class EntityExtractorImpl {
             }
         }
         if (bestSim >= DATE_SIM_THRESHOLD) return bestMatch;
+
         return null;
     }
+
 
     private String findTimePhrase(String clean) {
         if (clean == null) return null;
@@ -133,7 +136,6 @@ public class EntityExtractorImpl {
         return s;
     }
 }
-
 
 
 

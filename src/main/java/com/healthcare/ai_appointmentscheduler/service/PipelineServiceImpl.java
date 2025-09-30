@@ -31,8 +31,12 @@ public class PipelineServiceImpl implements PipelineService {
         String clean = preprocessor.preprocess(text);
         ExtractedEntities extracted = extractor.extract(clean);
         NormalizedEntity normalized = normalizer.normalize(clean, extracted);
-        double entityConf = scorer.scoreEntities(extracted, text);
-        double normConf = scorer.scoreNormalization(normalized, text);
+
+        // --- FIX APPLIED HERE ---
+        // Pass the 'clean' text to the scorer so it can analyze the text quality.
+        double entityConf = scorer.scoreEntities(extracted, clean);
+        double normConf = scorer.scoreNormalization(normalized, clean);
+
         return guardrail.buildResponse(text, extracted, normalized, entityConf, normConf);
     }
 }

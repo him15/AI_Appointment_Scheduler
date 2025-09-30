@@ -5,35 +5,35 @@ import com.healthcare.ai_appointmentscheduler.entity.NormalizedEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Improved confidence scorer:
- * - Entities confidence depends on presence of department, date, time + OCR quality.
- * - Normalization confidence depends on valid date/time/tz and sanity checks.
+ * Calculates confidence scores for the extraction and normalization steps.
  */
 @Service
 public class SimpleConfidenceScorer {
 
     /**
-     * Score entity extraction confidence (0–1).
-     * Uses weights + OCR quality scaling.
+     * Scores the entity extraction step.
+     * The score is based on which entities were found and the overall quality of the raw text.
      */
     public double scoreEntities(ExtractedEntities e, String rawText) {
         if (e == null) return 0.0;
 
+        // Base score is weighted based on the presence of key entities.
         double conf = 0.0;
-        if (e.getDepartment() != null) conf += 0.4;
+        if (e.getDepartment() != null) conf += 0.5; // Department is most important
         if (e.getDatePhrase() != null) conf += 0.3;
-        if (e.getTimePhrase() != null) conf += 0.3;
+        if (e.getTimePhrase() != null) conf += 0.2;
 
-        // scale with OCR quality factor
-        double quality = computeOcrQuality(rawText);
-        conf *= (0.5 + 0.5 * quality); // if text is gibberish, reduce score
+        // The base score is then scaled by the text quality.
+        // Gibberish text will result in a lower final score.
+        double quality = computeTextQuality(rawText);
+        conf *= (0.6 + 0.4 * quality);
 
         return Math.min(1.0, conf);
     }
 
     /**
-     * Score normalization confidence (0–1).
-     * Stronger if both date + time are present and look valid.
+     * Scores the normalization step.
+     * The score is high if both date and time were successfully normalized.
      */
     public double scoreNormalization(NormalizedEntity n, String rawText) {
         if (n == null) return 0.0;
@@ -43,31 +43,19 @@ public class SimpleConfidenceScorer {
         if (n.getTime() != null) conf += 0.4;
         if (n.getTz() != null) conf += 0.1;
 
-        // sanity check: avoid false 00:00 when no AM/PM context
-        if ("00:00".equals(n.getTime()) &&
-                (rawText == null || !rawText.toLowerCase().contains("12"))) {
-            conf *= 0.5;
-        }
-
         return Math.min(1.0, conf);
     }
 
-    // ---------------- Helper ----------------
-
     /**
-     * OCR quality factor: ratio of alphanumeric chars to total length.
-     * Returns 0 (poor) → 1 (good).
+     * Helper to compute a text quality score (0.0 for gibberish, 1.0 for clean text).
+     * Based on the ratio of letters and numbers to all characters.
      */
-    private double computeOcrQuality(String raw) {
+    private double computeTextQuality(String raw) {
         if (raw == null || raw.isBlank()) return 0.0;
         double alphaNum = raw.replaceAll("[^a-zA-Z0-9]", "").length();
-        double ratio = alphaNum / (double) raw.length();
-        return Math.max(0.0, Math.min(1.0, ratio));
+        return alphaNum / (double) raw.length();
     }
 }
-
-
-
 
 
 

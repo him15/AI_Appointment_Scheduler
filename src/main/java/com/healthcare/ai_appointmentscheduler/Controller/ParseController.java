@@ -26,7 +26,8 @@ public class ParseController {
 
     /**
      * Parse raw text input (JSON body).
-     * Body example: { "text": "Book dentist next Friday at 3pm" }
+     * Returns HTTP 200 OK for successful parsing and a full appointment.
+     * Returns HTTP 422 Unprocessable Entity if the input is ambiguous.
      */
     @PostMapping("/text")
     public ResponseEntity<ParseResponse> parseText(@RequestBody TextParseRequest request) {
@@ -37,13 +38,22 @@ public class ParseController {
             p.setMessage("Empty text provided");
             return ResponseEntity.badRequest().body(p);
         }
+
         ParseResponse resp = pipelineService.parseText(request.getText());
+
+        // --- NEW LOGIC ---
+        // If the pipeline could not form a complete appointment, return a 422 status.
+        if ("needs_clarification".equals(resp.getStatus())) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resp);
+        }
+
         return ResponseEntity.ok(resp);
     }
 
     /**
      * Parse uploaded image (form-data key "file").
-     * Returns the pipeline ParseResponse (OCR -> pipeline).
+     * Returns HTTP 200 OK for successful parsing and a full appointment.
+     * Returns HTTP 422 Unprocessable Entity if the image content is ambiguous.
      */
     @PostMapping("/image")
     public ResponseEntity<?> parseImage(@RequestParam("file") MultipartFile file) {
@@ -53,12 +63,18 @@ public class ParseController {
 
         try {
             ParseResponse resp = ocrService.parseImageAndRunPipeline(file);
+
+            // --- NEW LOGIC ---
+            // If the pipeline could not form a complete appointment, return a 422 status.
+            if ("needs_clarification".equals(resp.getStatus())) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resp);
+            }
+
             return ResponseEntity.ok(resp);
         } catch (IOException ioe) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Failed to read/process uploaded file", "details", ioe.getMessage()));
         } catch (Exception ex) {
-            // catch-all to avoid leaking stack traces
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Unexpected server error", "details", ex.getMessage()));
         }
