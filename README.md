@@ -37,12 +37,12 @@ The pipeline: **OCR → Text Preprocessing → Entity Extraction → Normalizati
 - **Run the Spring Boot app**
   • mvn spring-boot:run
 
-# **The app runs at:**
+### **The app runs at:**
   👉 http://localhost:9191
 
 ---
 
-<img width="849" height="694" alt="1" src="https://github.com/user-attachments/assets/e080c558-4453-4caf-8a19-89d09b27a124" />
+
 
 
 
