@@ -1,12 +1,46 @@
 package com.healthcare.ai_appointmentscheduler.util;
 
 /**
- * Small utility: Levenshtein distance + normalized similarity.
- * Fast, memory-efficient iterative implementation.
+ * Utility for Levenshtein distance, normalized similarity, and word plausibility checks.
  */
 public final class FuzzyMatcher {
 
     private FuzzyMatcher() {}
+
+    /**
+     * New method: A simple heuristic to check if a word is plausible or just gibberish.
+     * Real words have a reasonable mix of vowels and consonants.
+     * @param word The word to check.
+     * @return true if the word seems plausible, false otherwise.
+     */
+    public static boolean isPlausibleWord(String word) {
+        if (word == null || word.length() < 3) {
+            return true; // Too short to judge, let it pass
+        }
+        word = word.toLowerCase();
+
+        int consecutiveConsonants = 0;
+        int maxConsecutiveConsonants = 0;
+        int vowelCount = 0;
+
+        for (char c : word.toCharArray()) {
+            if ("aeiou".indexOf(c) >= 0) {
+                vowelCount++;
+                consecutiveConsonants = 0;
+            } else if (Character.isLetter(c)) {
+                consecutiveConsonants++;
+            }
+            if (consecutiveConsonants > maxConsecutiveConsonants) {
+                maxConsecutiveConsonants = consecutiveConsonants;
+            }
+        }
+
+        // A word is likely gibberish if it has no vowels or has a long string of consonants.
+        if (vowelCount == 0 && word.length() > 2) return false;
+        if (maxConsecutiveConsonants >= 5) return false; // e.g., "fsdfgds"
+
+        return true;
+    }
 
     public static int levenshtein(String a, String b) {
         if (a == null) a = "";
@@ -38,9 +72,6 @@ public final class FuzzyMatcher {
         return prev[b.length()];
     }
 
-    /**
-     * Normalized similarity: 1.0 = identical, 0.0 = totally different.
-     */
     public static double similarity(String a, String b) {
         if (a == null || b == null) return 0.0;
         a = a.trim();

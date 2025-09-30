@@ -1,22 +1,47 @@
 package com.healthcare.ai_appointmentscheduler.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ExtractedEntities {
-    @JsonProperty("date_phrase")
+    private String department;
     private String datePhrase;
-
-    @JsonProperty("time_phrase")
     private String timePhrase;
 
-    private String department;
+    // --- NEW FIELD TO FIX THE ERROR ---
+    // This field will store the confidence score (0.0 to 1.0) of the department match.
+    private double departmentConfidence;
 
-    public String getDatePhrase() { return datePhrase; }
-    public void setDatePhrase(String datePhrase) { this.datePhrase = datePhrase; }
+    // --- GETTERS AND SETTERS ---
 
-    public String getTimePhrase() { return timePhrase; }
-    public void setTimePhrase(String timePhrase) { this.timePhrase = timePhrase; }
+    public String getDepartment() {
+        return department;
+    }
 
-    public String getDepartment() { return department; }
-    public void setDepartment(String department) { this.department = department; }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getDatePhrase() {
+        return datePhrase;
+    }
+
+    public void setDatePhrase(String datePhrase) {
+        this.datePhrase = datePhrase;
+    }
+
+    public String getTimePhrase() {
+        return timePhrase;
+    }
+
+    public void setTimePhrase(String timePhrase) {
+        this.timePhrase = timePhrase;
+    }
+
+    // --- GETTER AND SETTER FOR THE NEW FIELD ---
+
+    public double getDepartmentConfidence() {
+        return departmentConfidence;
+    }
+
+    public void setDepartmentConfidence(double departmentConfidence) {
+        this.departmentConfidence = departmentConfidence;
+    }
 }
