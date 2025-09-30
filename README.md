@@ -20,6 +20,27 @@ The pipeline: **OCR → Text Preprocessing → Entity Extraction → Normalizati
 - **REST API** — JSON endpoints
 - **Ngrok / Cloudflare Tunnel** — expose local server for testing
 
+
+## ⚙️ Setup Instructions
+
+- **Clone the repository**
+- **Prerequisites**
+   • Java 17+
+   • Maven 3.6+
+   • Tesseract OCR installed locally
+          •	macOS: brew install tesseract
+          •	Ubuntu/Debian: sudo apt-get install tesseract-ocr -y
+  
+- **Install dependencies & build**
+  • mvn clean install
+  
+- **Run the Spring Boot app**
+  • mvn spring-boot:run
+
+# **The app runs at:**
+  👉 http://localhost:9191
+
+
 ---
 
 ## 🏗️ Architecture
@@ -61,10 +82,7 @@ normalize spaces)
          ▼
   Structured JSON Response
 
-
-
-
-## ⚙️ Setup Instructions
+                              
 
 
 
